@@ -2,11 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Fronted cargado correctamente');
 
 
-    
-
-
-
-
 
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
