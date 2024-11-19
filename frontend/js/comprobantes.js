@@ -45,9 +45,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             tipo: document.getElementById('comprobante-tipo').value,
             numero: document.getElementById('comprobante-numero').value,
             fecha: document.getElementById('comprobante-fecha').value,
-            monto: document.getElementById('comprobante-monto').value,
+            monto: parseFloat(document.getElementById('comprobante-monto').value), 
             cliente_proveedor: document.getElementById('comprobante-cliente_proveedor').value,
+            archivo_pdf: "",
+            archivo_json: "",
+            empresa_id: document.getElementById('empresa-id').value
         };
+
+        console.log('Datos enviados:', newComprobante);  // Verifica los datos que se están enviando
 
         const comprobante = await CreateComprobante(newComprobante);
         if (comprobante) {

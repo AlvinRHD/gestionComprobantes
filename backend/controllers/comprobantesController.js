@@ -20,16 +20,36 @@ module.exports = {
     ,
 
     createComprobante: async (req, res) => {
+        // Extraemos los datos del cuerpo de la solicitud
         const { tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id } = req.body;
+
+        // Validamos si todos los campos necesarios están presentes
+        if (!tipo || !numero || !fecha || !monto || !cliente_proveedor || !empresa_id) {
+            return res.status(400).json({ error: 'Faltan datos necesarios para agregar el comprobante' });
+        }
+
+        // Convertimos el monto a número si es una cadena
+        if (typeof monto === 'string') {
+            monto = parseFloat(monto);
+        }
+
+        // Verificamos que el monto es un número válido
+        if (isNaN(monto)) {
+            return res.status(400).json({ error: 'El monto debe ser un número válido' });
+        }
+
         try {
+            // Realizamos la consulta para insertar el comprobante
             const [result] = await pool.query(
                 'INSERT INTO comprobantes (tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
                 [tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id]
             );
+
+            // Respondemos con el ID del nuevo comprobante creado
             res.status(201).json({ id: result.insertId });
         } catch (error) {
-            
-            res.status(500).json({ error: error.message });
+            console.error('Error al agregar comprobante:', error);  // Log detallado
+            res.status(500).json({ error: 'Error al agregar el comprobante', message: error.message });
         }
     },
 

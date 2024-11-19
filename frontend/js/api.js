@@ -127,7 +127,7 @@ async function getComprobantes(tipo) {
 
 
 // Agregar un nuevo comprobante
-async function addComprobante(comprobanteData) {
+async function CreateComprobante(comprobanteData) {
     try {
         const response = await fetch(`${API_URL}/comprobantes`, {
             method: 'POST',
