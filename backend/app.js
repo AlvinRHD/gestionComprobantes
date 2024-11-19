@@ -7,7 +7,10 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 //Middleware
-app.use(cors()); // Permite peticiones desde el frontend
+app.use(cors({
+  origin: 'http://127.0.0.1:5500', // O '*'
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+})); // Permite peticiones desde el frontend
 app.use(bodyParser.json());// Permite procesar los datos JSON
 
 //Routes

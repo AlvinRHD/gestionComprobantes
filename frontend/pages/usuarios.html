@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Usuarios</title>
+  </head>
+  <body>
+    <header>
+      <h1>Gestión de Usuarios</h1>
+    </header>
+    <main>
+      <section>
+        <button id="btnAgregarUsuario">Agregar Usuario</button>
+        <table id="tablaUsuarios">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Empresa</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Usuarios cargados dinámicamente -->
+          </tbody>
+        </table>
+      </section>
+      <section id="formularioUsuario" style="display: none">
+        <h2 id="formTitulo">Agregar Usuario</h2>
+        <form id="usuarioForm">
+          <input type="hidden" id="usuarioId" />
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required />
+          <label for="correo">Correo:</label>
+          <input type="email" id="correo" name="correo" required />
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" name="password" />
+          <label for="rol">Rol:</label>
+          <select id="rol" name="rol" required>
+            <option value="Administrador">Administrador</option>
+            <option value="Auxiliar">Auxiliar</option>
+          </select>
+          <label for="empresa">Empresa:</label>
+          <select id="empresa" name="empresa_id">
+            <!-- Opciones cargadas dinámicamente -->
+          </select>
+          <button type="submit">Guardar</button>
+          <button type="button" id="btnCancelar">Cancelar</button>
+        </form>
+      </section>
+    </main>
+    <script src="../js/api.js"></script>
+    <script src="../js/usuarios.js"></script>
+  </body>
+</html>

@@ -3,6 +3,22 @@ const db = require('../models/db'); // Conexión a la BD
 const bcrypt = require('bcryptjs'); // Para validar contraseñas
 
 module.exports = {
+    // Obtener un usuario por ID
+    getUsuarioById: async (req, res) => {
+        const { id } = req.params;
+        console.log('ID recibido:', id); // <-- Para verificar qué ID se está recibiendo
+        try {
+            const [rows] = await db.query('SELECT * FROM usuarios WHERE id = ?', [id]);
+            if (rows.length === 0) {
+                return res.status(404).json({ message: 'Usuario no encontrado' });
+            }
+            res.json(rows[0]);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    
+
     // Obtener todos los usuarios
     getUsuarios: async (req, res) => {
         try {
