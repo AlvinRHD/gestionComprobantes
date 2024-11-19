@@ -74,6 +74,52 @@ async function CreateEmpresa(empresaData) {
     }
 }
 
+async function updateEmpresa(id, empresaData) {
+    try {
+        const response = await fetch(`${API_URL}/empresas/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+            body: JSON.stringify(empresaData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al actualizar la empresa');
+        }
+
+        return true;
+    } catch (error) {
+        console.error(error);
+        alert('Error al actualizar la empresa');
+        return false;
+    }
+}
+async function getEmpresaById(id) {
+    try {
+        const response = await fetch(`${API_URL}/empresas/${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener la empresa');
+        }
+
+        const empresa = await response.json();
+        return empresa;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+
+
+
 // Función para eliminar empresa
 async function deleteEmpresa(id) {
     try {
@@ -149,6 +195,31 @@ async function CreateComprobante(comprobanteData) {
         alert('Error al agregar el comprobante');
     }
 }
+
+
+async function updateComprobante(id, comprobanteData) {
+    try {
+        const response = await fetch(`${API_URL}/comprobantes/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+            body: JSON.stringify(comprobanteData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al actualizar el comprobante');
+        }
+
+        return true;
+    } catch (error) {
+        console.error(error);
+        alert('Error al actualizar el comprobante');
+        return false;
+    }
+}
+
 
 // Eliminar un comprobante
 async function deleteComprobante(id) {

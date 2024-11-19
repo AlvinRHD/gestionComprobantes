@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td>${comprobante.monto}</td>
                 <td>${comprobante.cliente_proveedor}</td>
                 <td>
+                 <button class="edit-btn" data-id="${comprobante.id}">Editar</button>
                     <button class="delete-btn" data-id="${comprobante.id}">Eliminar</button>
                 </td>
             `;
@@ -74,6 +75,57 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     });
+
+
+    // Editar un comprobante
+comprobantesTable.addEventListener('click', async (event) => {
+    if (event.target.classList.contains('edit-btn')) {
+        const id = event.target.getAttribute('data-id');
+
+        // Obtener datos del comprobante actual
+        const comprobantes = await getComprobantes();
+        const comprobante = comprobantes.find(comp => comp.id == id);
+
+        if (!comprobante) {
+            alert('No se encontró el comprobante');
+            return;
+        }
+
+        // Rellenar el formulario con los datos del comprobante
+        document.getElementById('comprobante-tipo').value = comprobante.tipo;
+        document.getElementById('comprobante-numero').value = comprobante.numero;
+        document.getElementById('comprobante-fecha').value = comprobante.fecha;
+        document.getElementById('comprobante-monto').value = comprobante.monto;
+        document.getElementById('comprobante-cliente_proveedor').value = comprobante.cliente_proveedor;
+        document.getElementById('empresa-id').value = comprobante.empresa_id;
+
+        // Cambiar el comportamiento del formulario para "Editar"
+        addComprobanteForm.onsubmit = async (e) => {
+            e.preventDefault();
+
+            const updatedComprobante = {
+                tipo: document.getElementById('comprobante-tipo').value,
+                numero: document.getElementById('comprobante-numero').value,
+                fecha: document.getElementById('comprobante-fecha').value,
+                monto: parseFloat(document.getElementById('comprobante-monto').value),
+                cliente_proveedor: document.getElementById('comprobante-cliente_proveedor').value,
+                empresa_id: document.getElementById('empresa-id').value,
+            };
+
+            // Llamar a la función de actualización
+            const success = await updateComprobante(id, updatedComprobante);
+
+            if (success) {
+                addComprobanteModal.style.display = 'none';
+                loadComprobantes(); // Recargar la tabla
+            }
+        };
+
+        // Abrir el modal
+        addComprobanteModal.style.display = 'block';
+    }
+});
+
 
     // Cambiar el tipo de comprobante y cargarlo
     comprobanteTypeSelector.addEventListener('change', loadComprobantes);
