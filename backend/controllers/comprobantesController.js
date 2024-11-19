@@ -1,14 +1,23 @@
 const pool = require('../models/db');
 
 module.exports = {
-    getComprobantes: async (req, res) => {
+    getComprobantesByType: async (req, res) => {
+        const tipo = req.params.tipo || null; // Acepta null si no se pasa `tipo`
         try {
-            const [rows] = await pool.query('SELECT * FROM comprobantes');
+            console.log('Tipo recibido:', tipo); // Muestra el tipo recibido
+            
+
+            const query = tipo ? 'SELECT * FROM comprobantes WHERE tipo = ?' : 'SELECT * FROM comprobantes';
+            const values = tipo ? [tipo] : [];
+            console.log('Consulta ejecutada:', query, values); // Muestra la consulta generada
+            const [rows] = await pool.query(query, values);
             res.json(rows);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error al obtener comprobantes:', error.message);
+            res.status(500).json({ error: 'Error al obtener los comprobantes' });
         }
-    },
+    }
+    ,
 
     createComprobante: async (req, res) => {
         const { tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id } = req.body;
@@ -19,6 +28,7 @@ module.exports = {
             );
             res.status(201).json({ id: result.insertId });
         } catch (error) {
+            
             res.status(500).json({ error: error.message });
         }
     },

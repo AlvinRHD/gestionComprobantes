@@ -95,3 +95,81 @@ async function deleteEmpresa(id) {
     }
 }
 //AQUI TERMINA FUNCION PARA EMPRESAS
+
+
+
+
+
+//AQUI EMPIEZA FUNCION PARA COMPROBANTES
+// Obtener los comprobantes según el tipo
+async function getComprobantes(tipo) {
+    try {
+        // Si `tipo` es vacío o no está definido, no lo incluyas en la URL
+        const url = tipo ? `${API_URL}/comprobantes/${tipo}` : `${API_URL}/comprobantes`;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener los comprobantes');
+        }
+
+        const comprobantes = await response.json();
+        return comprobantes;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
+
+// Agregar un nuevo comprobante
+async function addComprobante(comprobanteData) {
+    try {
+        const response = await fetch(`${API_URL}/comprobantes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+            body: JSON.stringify(comprobanteData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al agregar el comprobante');
+        }
+
+        const comprobante = await response.json();
+        return comprobante;
+    } catch (error) {
+        console.error(error);
+        alert('Error al agregar el comprobante');
+    }
+}
+
+// Eliminar un comprobante
+async function deleteComprobante(id) {
+    try {
+        const response = await fetch(`${API_URL}/comprobantes/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al eliminar el comprobante');
+        }
+
+        return true;
+    } catch (error) {
+        console.error(error);
+        alert('Error al eliminar el comprobante');
+        return false;
+    }
+}
+
+//AQUI TERMINA FUNCION DE COMPROBANTES
