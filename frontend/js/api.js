@@ -173,15 +173,14 @@ async function getComprobantes(tipo) {
 
 
 // Agregar un nuevo comprobante
-async function CreateComprobante(comprobanteData) {
+async function CreateComprobante(formData) {
     try {
         const response = await fetch(`${API_URL}/comprobantes`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             },
-            body: JSON.stringify(comprobanteData),
+            body: formData,
         });
 
         if (!response.ok) {
@@ -195,6 +194,7 @@ async function CreateComprobante(comprobanteData) {
         alert('Error al agregar el comprobante');
     }
 }
+
 
 
 async function updateComprobante(id, comprobanteData) {

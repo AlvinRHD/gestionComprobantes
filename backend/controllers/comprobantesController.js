@@ -1,5 +1,21 @@
 const pool = require('../models/db');
 
+const path = require('path');
+
+// Configuración de Multer para manejar la subida de archivos
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, '../uploads/');
+        cb(null, uploadDir); // Carpeta donde se almacenarán los archivos
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Renombrar archivo
+    },
+});
+const upload = multer({ storage });
+
+
 module.exports = {
     getComprobantesByType: async (req, res) => {
         const tipo = req.params.tipo || null; // Acepta null si no se pasa `tipo`
@@ -20,37 +36,44 @@ module.exports = {
     ,
 
     createComprobante: async (req, res) => {
-        // Extraemos los datos del cuerpo de la solicitud
-        const { tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id } = req.body;
+        console.log('Body:', req.body); // Ver los datos del formulario
+    console.log('Files:', req.files); // Ver los archivos subidos
+        upload.fields([{ name: 'archivo_pdf' }, { name: 'archivo_json' }])(req, res, async (err) => {
+            if (err) {
+                return res.status(400).json({ error: 'Error al subir archivos', message: err.message });
+            }
+            console.log('Archivos subidos:', req.files);
+            const { tipo, numero, fecha, monto, cliente_proveedor, empresa_id } = req.body;
+            const archivo_pdf = req.files?.archivo_pdf ? req.files.archivo_pdf[0].filename : null;
+            const archivo_json = req.files?.archivo_json ? req.files.archivo_json[0].filename : null;
 
-        // Validamos si todos los campos necesarios están presentes
-        if (!tipo || !numero || !fecha || !monto || !cliente_proveedor || !empresa_id) {
-            return res.status(400).json({ error: 'Faltan datos necesarios para agregar el comprobante' });
-        }
+            if (!tipo || !numero || !fecha || !monto || !cliente_proveedor || !empresa_id) {
+                return res.status(400).json({ error: 'Faltan datos necesarios para agregar el comprobante' });
+            }
 
-        // Convertimos el monto a número si es una cadena
-        if (typeof monto === 'string') {
-            monto = parseFloat(monto);
-        }
+            try {
+                const [result] = await pool.query(
+                    'INSERT INTO comprobantes (tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                    [tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id]
+                );
+                res.status(201).json({ id: result.insertId });
+            } catch (error) {
+                console.error('Error al agregar comprobante:', error.message);
+                res.status(500).json({ error: 'Error al agregar el comprobante' });
+            }
+        });
+    },
 
-        // Verificamos que el monto es un número válido
-        if (isNaN(monto)) {
-            return res.status(400).json({ error: 'El monto debe ser un número válido' });
-        }
-
-        try {
-            // Realizamos la consulta para insertar el comprobante
-            const [result] = await pool.query(
-                'INSERT INTO comprobantes (tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                [tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id]
-            );
-
-            // Respondemos con el ID del nuevo comprobante creado
-            res.status(201).json({ id: result.insertId });
-        } catch (error) {
-            console.error('Error al agregar comprobante:', error);  // Log detallado
-            res.status(500).json({ error: 'Error al agregar el comprobante', message: error.message });
-        }
+    // Método para descargar archivos
+    downloadFile: (req, res) => {
+        const { filename } = req.params;
+        const filepath = path.join(__dirname, '../uploads/', filename);
+        res.download(filepath, (err) => {
+            if (err) {
+                console.error('Error al descargar el archivo:', err.message);
+                res.status(500).json({ error: 'Error al descargar el archivo' });
+            }
+        });
     },
 
     updateComprobante: async (req, res) => {

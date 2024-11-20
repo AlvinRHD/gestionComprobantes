@@ -5,6 +5,7 @@ const comprobantesController = require('../controllers/comprobantesController');
 //Rutas
 router.get('/:tipo?', comprobantesController.getComprobantesByType);
 router.post('/', comprobantesController.createComprobante);
+router.get('/download/:filename', comprobantesController.downloadFile);
 router.put('/:id', comprobantesController.updateComprobante);
 router.delete('/:id', comprobantesController.deleteComprobante);
 
