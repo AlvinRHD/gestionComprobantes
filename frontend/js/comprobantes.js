@@ -6,52 +6,76 @@ document.addEventListener('DOMContentLoaded', async () => {
     const closeComprobanteModalBtn = document.getElementById('close-comprobante-modal');
     const comprobanteTypeSelector = document.getElementById('comprobante-type-selector');
 
+    let isProcessing = false;
 
-        // ** Evento global para manejar el envío del formulario **
-        addComprobanteForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-        
-            const newComprobante = {
-                tipo: document.getElementById('comprobante-tipo').value,
-                numero: document.getElementById('comprobante-numero').value,
-                fecha: document.getElementById('comprobante-fecha').value,
-                monto: parseFloat(document.getElementById('comprobante-monto').value),
-                cliente_proveedor: document.getElementById('comprobante-cliente_proveedor').value,
-                empresa_id: document.getElementById('empresa-id').value,
-            };
-        
-            const formData = new FormData();
-            for (const key in newComprobante) {
-                formData.append(key, newComprobante[key]);
+    // ** Evento global para manejar el envío del formulario **
+    addComprobanteForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Evitar recarga automática del formulario
+
+        if (isProcessing) return; // Si ya se está procesando, salir
+        isProcessing = true; // Establecer como procesado
+
+        // Captura los valores del formulario
+        const newComprobante = {
+            tipo: document.getElementById('comprobante-tipo').value,
+            numero: document.getElementById('comprobante-numero').value,
+            fecha: document.getElementById('comprobante-fecha').value,
+            monto: parseFloat(document.getElementById('comprobante-monto').value),
+            cliente_proveedor: document.getElementById('comprobante-cliente_proveedor').value,
+            empresa_id: document.getElementById('empresa-id').value,
+        };
+
+        // Crea una instancia de FormData
+        const formData = new FormData();
+
+        // Agregar datos del formulario al FormData
+        for (const key in newComprobante) {
+            formData.append(key, newComprobante[key]);
+        }
+
+        // Agregar archivos al FormData (si existen)
+        const archivo_pdf = document.getElementById('archivo_pdf').files[0];
+        const archivo_json = document.getElementById('archivo_json').files[0];
+
+        if (archivo_pdf) formData.append('archivo_pdf', archivo_pdf);
+        if (archivo_json) formData.append('archivo_json', archivo_json);
+
+        // Depuración: Verifica el contenido de FormData antes de enviarlo
+        console.log('Contenido de FormData:');
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}:`, pair[1]); // pair[1] mostrará el valor (archivo o dato)
+        }
+
+        try {
+            // Envía los datos al servidor
+            const response = await fetch(`${API_URL}/comprobantes`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`, // Si tu sistema usa autenticación
+                },
+                body: formData, // FormData maneja los datos y archivos
+            });
+
+            // Manejo de errores del servidor
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error del servidor:', errorData);
+                throw new Error(errorData.message || 'Error desconocido al agregar el comprobante');
             }
-        
-            // Asegúrate de que los archivos se agreguen al FormData
-            const archivo_pdf = document.getElementById('archivo_pdf').files[0];
-            const archivo_json = document.getElementById('archivo_json').files[0];
-        
-            if (archivo_pdf) {
-                formData.append('archivo_pdf', archivo_pdf);
-            }
-            if (archivo_json) {
-                formData.append('archivo_json', archivo_json);
-            }
-        
-            console.log("Form Data:", formData); // Verifica los datos
-        
-            // Ahora enviar el FormData
-            const comprobante = await CreateComprobante(formData); // Pasar FormData
-        
-            if (comprobante) {
-                alert('Comprobante agregado exitosamente');
-                addComprobanteForm.reset(); // Limpiar el formulario
-                addComprobanteModal.style.display = 'none';
-                loadComprobantes(); // Recargar la tabla
-            }
-        });
-        
-       
-        
-        
+
+            // Respuesta exitosa del servidor
+            const comprobante = await response.json();
+            alert('Comprobante agregado exitosamente');
+            console.log('Comprobante agregado:', comprobante);
+            loadComprobantes(); // Recarga la tabla
+
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            alert('No se pudo agregar el comprobante');
+        } finally {
+            isProcessing = false; // Restablecer el indicador de procesamiento
+        }
+    });
 
     // ** Función para cargar comprobantes **
     async function loadComprobantes() {
@@ -68,35 +92,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td>${comprobante.monto}</td>
                 <td>${comprobante.cliente_proveedor}</td>
                 <td>
-        ${comprobante.archivo_pdf ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_pdf}" target="_blank">Ver PDF</a>` : ''}
-        ${comprobante.archivo_json ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_json}" target="_blank">Ver JSON</a>` : ''}
-    </td>
+                    ${comprobante.archivo_pdf ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_pdf}" target="_blank">Ver PDF</a>` : ''}
+                    ${comprobante.archivo_json ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_json}" target="_blank">Ver JSON</a>` : ''}
+                </td>
                 <td>
                     <button class="edit-btn" data-id="${comprobante.id}">Editar</button>
                     <button class="delete-btn" data-id="${comprobante.id}">Eliminar</button>
                 </td>
             `;
         });
-    }
-
-    // ** Función para agregar un comprobante **
-    async function agregarComprobante(e) {
-        e.preventDefault();
-
-        const newComprobante = {
-            tipo: document.getElementById('comprobante-tipo').value,
-            numero: document.getElementById('comprobante-numero').value,
-            fecha: document.getElementById('comprobante-fecha').value,
-            monto: parseFloat(document.getElementById('comprobante-monto').value),
-            cliente_proveedor: document.getElementById('comprobante-cliente_proveedor').value,
-            empresa_id: document.getElementById('empresa-id').value,
-        };
-
-        const comprobante = await CreateComprobante(newComprobante);
-        if (comprobante) {
-            addComprobanteModal.style.display = 'none';
-            loadComprobantes();
-        }
     }
 
     // ** Función para editar un comprobante existente **
@@ -153,7 +157,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ** Evento: Abrir modal para agregar comprobante **
     addComprobanteBtn.addEventListener('click', () => {
         addComprobanteForm.reset(); // Limpia el formulario
-        addComprobanteForm.onsubmit = agregarComprobante; // Asigna la lógica de agregar
         addComprobanteModal.style.display = 'block';
     });
 

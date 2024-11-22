@@ -13,6 +13,8 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + path.extname(file.originalname)); // Renombrar archivo
     },
 });
+
+
 const upload = multer({ storage });
 
 
@@ -36,33 +38,34 @@ module.exports = {
     ,
 
     createComprobante: async (req, res) => {
-        console.log('Body:', req.body); // Ver los datos del formulario
-    console.log('Files:', req.files); // Ver los archivos subidos
-        upload.fields([{ name: 'archivo_pdf' }, { name: 'archivo_json' }])(req, res, async (err) => {
-            if (err) {
-                return res.status(400).json({ error: 'Error al subir archivos', message: err.message });
-            }
-            console.log('Archivos subidos:', req.files);
-            const { tipo, numero, fecha, monto, cliente_proveedor, empresa_id } = req.body;
-            const archivo_pdf = req.files?.archivo_pdf ? req.files.archivo_pdf[0].filename : null;
-            const archivo_json = req.files?.archivo_json ? req.files.archivo_json[0].filename : null;
-
-            if (!tipo || !numero || !fecha || !monto || !cliente_proveedor || !empresa_id) {
-                return res.status(400).json({ error: 'Faltan datos necesarios para agregar el comprobante' });
-            }
-
-            try {
-                const [result] = await pool.query(
-                    'INSERT INTO comprobantes (tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                    [tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id]
-                );
-                res.status(201).json({ id: result.insertId });
-            } catch (error) {
-                console.error('Error al agregar comprobante:', error.message);
-                res.status(500).json({ error: 'Error al agregar el comprobante' });
-            }
-        });
+        console.log('Body recibido:', req.body); // Verifica los datos recibidos
+        console.log('Archivos recibidos:', req.files); // Verifica los archivos
+    
+        const { tipo, numero, fecha, monto, cliente_proveedor, empresa_id } = req.body;
+        const archivo_pdf = req.files?.archivo_pdf ? req.files.archivo_pdf[0].filename : null;
+        const archivo_json = req.files?.archivo_json ? req.files.archivo_json[0].filename : null;
+    
+        // Verificación de datos
+        if (!tipo || !numero || !fecha || !monto || !cliente_proveedor || !empresa_id) {
+            console.error('Datos incompletos:', { tipo, numero, fecha, monto, cliente_proveedor, empresa_id });
+            return res.status(400).json({ error: 'Faltan datos necesarios para agregar el comprobante' });
+        }
+    
+        try {
+            const [result] = await pool.query(
+                'INSERT INTO comprobantes (tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                [tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id]
+            );
+            console.log('Comprobante creado con ID:', result.insertId);
+            res.status(201).json({ id: result.insertId });
+        } catch (error) {
+            console.error('Error en la base de datos:', error.message);
+            res.status(500).json({ error: 'Error al agregar el comprobante' });
+        }
     },
+    
+    
+    
 
     // Método para descargar archivos
     downloadFile: (req, res) => {

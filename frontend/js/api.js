@@ -183,12 +183,15 @@ async function CreateComprobante(formData) {
             body: formData,
         });
 
-        if (!response.ok) {
+        if (response.ok) {
+            const comprobante = await response.json();
+            return comprobante;
+        }
+        else {
             throw new Error('Error al agregar el comprobante');
         }
 
-        const comprobante = await response.json();
-        return comprobante;
+        
     } catch (error) {
         console.error(error);
         alert('Error al agregar el comprobante');
