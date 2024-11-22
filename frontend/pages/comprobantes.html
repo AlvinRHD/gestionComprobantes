@@ -50,26 +50,37 @@
 
     <div id="add-comprobante-modal" style="display: none">
       <form id="add-comprobante-form">
-        <label for="comprobante-type">Tipo de Comprobante:</label>
-        <select id="comprobante-tipo" required>
+        <label for="comprobante-tipo">Tipo de Comprobante:</label>
+        <select id="comprobante-tipo" name="tipo" required>
           <option value="Crédito Fiscal">Compra</option>
           <option value="Consumidor Final">Venta</option>
         </select>
 
-        <label for="comprobante-number">Número de Comprobante:</label>
-        <input type="text" id="comprobante-numero" required />
+        <label for="comprobante-numero">Número de Comprobante:</label>
+        <input type="text" id="comprobante-numero" name="numero" required />
 
-        <label for="comprobante-date">Fecha:</label>
-        <input type="date" id="comprobante-fecha" required />
+        <label for="comprobante-fecha">Fecha:</label>
+        <input type="date" id="comprobante-fecha" name="fecha" required />
 
-        <label for="comprobante-amount">Monto:</label>
-        <input type="number" id="comprobante-monto" required />
+        <label for="comprobante-monto">Monto:</label>
+        <input type="number" id="comprobante-monto" name="monto" required />
 
-        <label for="comprobante-provider-client">Proveedor/Cliente:</label>
-        <input type="text" id="comprobante-cliente_proveedor" required />
+        <label for="comprobante-cliente_proveedor">Proveedor/Cliente:</label>
+        <input
+          type="text"
+          id="comprobante-cliente_proveedor"
+          name="cliente_proveedor"
+          required
+        />
 
         <label for="empresa-id">ID de la Empresa:</label>
-        <input type="text" id="empresa-id" placeholder="ID de la Empresa" />
+        <input
+          type="text"
+          id="empresa-id"
+          name="empresa_id"
+          placeholder="ID de la Empresa"
+          required
+        />
 
         <!-- Archivos -->
         <label>Archivo PDF:</label>
@@ -79,6 +90,8 @@
           name="archivo_pdf"
           accept="application/pdf"
         />
+        <div id="archivo_pdf_link"></div>
+
         <label>Archivo JSON:</label>
         <input
           type="file"
@@ -86,6 +99,7 @@
           name="archivo_json"
           accept="application/json"
         />
+        <div id="archivo_json_link"></div>
 
         <button type="submit">Guardar</button>
         <button type="button" id="close-comprobante-modal">Cancelar</button>

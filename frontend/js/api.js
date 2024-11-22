@@ -202,6 +202,8 @@ async function CreateComprobante(formData) {
 
 async function updateComprobante(id, comprobanteData) {
     try {
+        console.log('URL:', `${API_URL}/comprobantes/${id}`);
+        console.log('Token:', localStorage.getItem('authToken'));
         const response = await fetch(`${API_URL}/comprobantes/${id}`, {
             method: 'PUT',
             headers: {

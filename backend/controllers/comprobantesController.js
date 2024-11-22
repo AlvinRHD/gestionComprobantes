@@ -81,17 +81,43 @@ module.exports = {
 
     updateComprobante: async (req, res) => {
         const { id } = req.params;
-        const { tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id } = req.body;
+        const { tipo, numero, fecha, monto, cliente_proveedor, empresa_id } = req.body;
+    
+        // Verifica si se envían nuevos archivos
+        const archivo_pdf = req.files?.archivo_pdf ? req.files.archivo_pdf[0].filename : null;
+        const archivo_json = req.files?.archivo_json ? req.files.archivo_json[0].filename : null;
+    
+        console.log('Datos recibidos:', req.body);
+        console.log('Archivos recibidos:', req.files);
+    
+        if (!tipo || !numero || !fecha || !monto || !cliente_proveedor || !empresa_id) {
+            return res.status(400).json({ error: 'Faltan datos necesarios para actualizar el comprobante' });
+        }
+    
         try {
+            // Obtén los archivos existentes si no se envían nuevos
+            const [existing] = await pool.query('SELECT archivo_pdf, archivo_json FROM comprobantes WHERE id = ?', [id]);
+            if (!existing.length) {
+                return res.status(404).json({ error: 'Comprobante no encontrado' });
+            }
+    
+            const pdfToUpdate = archivo_pdf || existing[0].archivo_pdf;
+            const jsonToUpdate = archivo_json || existing[0].archivo_json;
+    
             await pool.query(
                 'UPDATE comprobantes SET tipo = ?, numero = ?, fecha = ?, monto = ?, cliente_proveedor = ?, archivo_pdf = ?, archivo_json = ?, empresa_id = ? WHERE id = ?',
-                [tipo, numero, fecha, monto, cliente_proveedor, archivo_pdf, archivo_json, empresa_id, id]
+                [tipo, numero, fecha, monto, cliente_proveedor, pdfToUpdate, jsonToUpdate, empresa_id, id]
             );
+    
             res.sendStatus(204);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            console.error('Error al actualizar comprobante:', error.message);
+            res.status(500).json({ error: 'Error al actualizar el comprobante' });
         }
-    },
+    }
+    
+    
+    ,
 
     deleteComprobante: async (req, res) => {
         const { id } = req.params;
