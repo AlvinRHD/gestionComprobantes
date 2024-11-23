@@ -37,9 +37,6 @@
         </tbody>
       </table>
     </main>
-    <footer>
-      <p>&copy; 2024 Contadorcito SA de CV</p>
-    </footer>
 
     <div id="add-company-modal" style="display: none">
       <form id="add-company-form">
@@ -65,6 +62,36 @@
         <button type="button" id="close-modal">Cancelar</button>
       </form>
     </div>
+
+    <h2>Generar Reporte</h2>
+    <div id="reporte-filtros">
+      <label for="reporte-empresa">Empresa:</label>
+      <select id="reporte-empresa"></select>
+
+      <label for="reporte-tipo">Tipo de Comprobante:</label>
+      <select id="reporte-tipo">
+        <option value="Crédito Fiscal">Compra</option>
+        <option value="Consumidor Final">Venta</option>
+      </select>
+
+      <label for="reporte-fecha-inicio">Fecha Inicio:</label>
+      <input type="date" id="reporte-fecha-inicio" />
+
+      <label for="reporte-fecha-fin">Fecha Fin:</label>
+      <input type="date" id="reporte-fecha-fin" />
+
+      <label for="reporte-formato">Formato:</label>
+      <select id="reporte-formato">
+        <option value="excel">Excel</option>
+        <option value="pdf">PDF</option>
+      </select>
+
+      <button id="generar-reporte-btn">Generar Reporte</button>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Contadorcito SA de CV</p>
+    </footer>
 
     <script src="../js/api.js"></script>
     <script src="../js/empresas.js"></script>

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('Frontend cargado correctamente');
 
     const companiesTable = document.getElementById('companies-table').getElementsByTagName('tbody')[0];
@@ -7,13 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const addCompanyBtn = document.getElementById('add-company-btn');
     const closeModalBtn = document.getElementById('close-modal');
 
-    let editMode = false; // Variable para distinguir entre crear y editar
-    let currentEditingId = null; // ID de la empresa en edición
+    let editMode = false;
+    let currentEditingId = null;
 
-    // Cargar las empresas
     async function loadEmpresas() {
         const empresas = await getEmpresas();
-        companiesTable.innerHTML = ''; // Limpiar la tabla
+        companiesTable.innerHTML = '';
 
         empresas.forEach(empresa => {
             const row = companiesTable.insertRow();
@@ -31,15 +30,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Abrir el modal para agregar empresa
+    async function populateEmpresaSelect() {
+        const empresas = await getEmpresas();
+        const empresaSelect = document.getElementById('reporte-empresa');
+        empresaSelect.innerHTML = '';
+
+        empresas.forEach(empresa => {
+            const option = document.createElement('option');
+            option.value = empresa.id;
+            option.textContent = empresa.nombre;
+            empresaSelect.appendChild(option);
+        });
+    }
+
     addCompanyBtn.addEventListener('click', () => {
-        editMode = false; // Modo de creación
-        currentEditingId = null; // Sin ID en edición
-        addCompanyForm.reset(); // Limpiar el formulario
+        editMode = false;
+        currentEditingId = null;
+        addCompanyForm.reset();
         addCompanyModal.style.display = 'block';
     });
 
-    // Cerrar el modal y reiniciar el formulario
     closeModalBtn.addEventListener('click', () => {
         addCompanyForm.reset();
         addCompanyModal.style.display = 'none';
@@ -47,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentEditingId = null;
     });
 
-    // Agregar o editar una empresa
     addCompanyForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -60,68 +69,94 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (editMode) {
-            // Actualizar la empresa existente
             const success = await updateEmpresa(currentEditingId, empresaData);
-            if (success) {
-                alert('Empresa actualizada correctamente');
-            }
+            if (success) alert('Empresa actualizada correctamente');
         } else {
-            // Crear una nueva empresa
             const newEmpresa = await CreateEmpresa(empresaData);
-            if (newEmpresa) {
-                alert('Empresa creada correctamente');
-            }
+            if (newEmpresa) alert('Empresa creada correctamente');
         }
 
-        // Reiniciar el estado del formulario y cerrar el modal
         addCompanyForm.reset();
         addCompanyModal.style.display = 'none';
         editMode = false;
         currentEditingId = null;
 
-        // Recargar las empresas
         loadEmpresas();
     });
 
-    // Eliminar una empresa
     companiesTable.addEventListener('click', async (event) => {
         if (event.target.classList.contains('delete-btn')) {
             const id = event.target.getAttribute('data-id');
-            const confirmed = confirm('¿Estás seguro de eliminar esta empresa?');
-            if (confirmed) {
+            if (confirm('¿Estás seguro de eliminar esta empresa?')) {
                 const success = await deleteEmpresa(id);
-                if (success) {
-                    loadEmpresas(); // Recargar las empresas
-                }
+                if (success) loadEmpresas();
             }
         }
-    });
-
-    // Editar una empresa
-    companiesTable.addEventListener('click', async (event) => {
         if (event.target.classList.contains('edit-btn')) {
             const id = event.target.getAttribute('data-id');
-
-            // Obtener la empresa actual
             const empresas = await getEmpresas();
             const empresa = empresas.find(emp => emp.id == id);
 
-            // Rellenar el formulario con los datos actuales
             document.getElementById('company-nombre').value = empresa.nombre;
             document.getElementById('company-tipo').value = empresa.tipo;
             document.getElementById('company-direccion').value = empresa.direccion;
             document.getElementById('company-telefono').value = empresa.telefono;
             document.getElementById('company-correo').value = empresa.correo;
 
-            // Cambiar a modo edición
             editMode = true;
             currentEditingId = id;
 
-            // Mostrar el modal
             addCompanyModal.style.display = 'block';
         }
     });
 
-    // Inicializar la carga de empresas
-    loadEmpresas();
+    document.getElementById('generar-reporte-btn').addEventListener('click', async () => {
+        const generarBtn = document.getElementById('generar-reporte-btn');
+        generarBtn.textContent = 'Generando...';
+        generarBtn.disabled = true;
+
+        try {
+            const empresaId = document.getElementById('reporte-empresa').value;
+            const tipo = document.getElementById('reporte-tipo').value;
+            const startDate = document.getElementById('reporte-fecha-inicio').value;
+            const endDate = document.getElementById('reporte-fecha-fin').value;
+            const format = document.getElementById('reporte-formato').value;
+
+            if (!empresaId) {
+                alert('Por favor, selecciona una empresa.');
+                return;
+            }
+            if (!startDate || !endDate) {
+                alert('Por favor, selecciona el periodo de tiempo.');
+                return;
+            }
+
+            const url = `${API_URL}/empresas/reporte?empresaId=${empresaId}&tipo=${tipo}&startDate=${startDate}&endDate=${endDate}&format=${format}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                },
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `reporte_${tipo}_${startDate}_${endDate}.${format === 'excel' ? 'xlsx' : 'pdf'}`;
+                link.click();
+            } else {
+                alert('Error al generar el reporte');
+            }
+        } catch (error) {
+            console.error('Error al generar el reporte:', error);
+            alert('Ocurrió un error inesperado al generar el reporte.');
+        } finally {
+            generarBtn.textContent = 'Generar Reporte';
+            generarBtn.disabled = false;
+        }
+    });
+
+    await loadEmpresas();
+    await populateEmpresaSelect();
 });

@@ -4,6 +4,10 @@ const empresasController = require('../controllers/empresasController');
 const verifyRole = require('../utils/auth');
 
 
+
+// Nueva ruta para generar reportes
+router.get('/reporte', verifyRole(['Administrador']), empresasController.getReport);
+
 //Rutas
 router.get('/', verifyRole(['Administrador']), empresasController.getEmpresas);
 
