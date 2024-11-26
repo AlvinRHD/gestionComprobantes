@@ -1,0 +1,227 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Fondo negro */
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #1c1c1c; /* Azul oscuro */
+    padding: 10px;
+    margin-bottom: 10px; /* Separación del resto */
+    border-radius: 5px; /* Bordes redondeados */
+    margin: 30px;
+}
+
+header h1 {
+    font-size: 40px;
+    color: #7ef0ff; /* Azul claro */
+    margin-bottom: 5px; /* Espaciado */
+}
+
+hr {
+    border-color: #79ffff;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 5px; /* Reduce separación entre enlaces */
+    margin-top: 5px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 3px 6px; /* Reduce el padding */
+    font-size: 18px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+}
+
+nav a:hover {
+    background-color: #00bcd4;
+    color: #121212;
+}
+
+/* Main */
+main {
+    flex: 1;
+    padding: 10px; /* Reduce el espacio interior */
+    background-color: #1c1c1c;
+    border-radius: 5px;
+    margin: 30px;
+}
+
+#btnAgregarUsuario {
+    background-color: #00bcd4;
+    color: #121212;
+    padding: 10px; /* Reduce el padding */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 23%;
+    font-size: 20px;
+    font-weight: bolder;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px; /* Espaciado con otros elementos */
+}
+
+#btnAgregarUsuario:hover {
+    background-color: #9dffff;
+}
+
+#tablaUsuarios {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px; /* Texto más compacto */
+    font-weight: bolder;
+    margin-bottom: 20px; /* Espaciado del footer */
+}
+
+#tablaUsuarios th,
+#tablaUsuarios td {
+    text-align: left;
+    padding: 10px; /* Reduce el padding de las celdas */
+    border-bottom: 1px solid #333;
+}
+
+#tablaUsuarios th {
+    background-color: #1c1c1c;
+    color: #00bcd4;
+}
+
+#tablaUsuarios tr:hover {
+    background-color: #1a1a1a;
+}
+
+/* Formulario de usuario */
+#formularioUsuario {
+    background-color: #1c1c1c;
+    padding: 15px; /* Reduce padding interno */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+}
+
+#formularioUsuario h2 {
+    font-size: 24px;
+    color: #79ffff;
+    margin-bottom: 10px;
+}
+
+#formularioUsuario label {
+    display: block;
+    margin-bottom: 3px;
+    color: #00bcd4;
+    font-size: 18px; /* Texto más compacto */
+    font-weight: bold;
+}
+
+#formularioUsuario input,
+#formularioUsuario select,
+#formularioUsuario button {
+    width: 100%;
+    padding: 6px; /* Reduce padding interno */
+    margin-bottom: 8px; /* Reduce el espacio entre campos */
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#formularioUsuario input,
+#formularioUsuario select {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+#formularioUsuario button[type="submit"] {
+    background-color: #00bcd4;
+    color: #121212;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+#formularioUsuario button[type="submit"]:hover {
+    background-color: #9dffff;
+}
+
+#btnCancelar {
+    background-color: #444;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+#btnCancelar:hover {
+    background-color: #919191;
+}
+
+/* Footer */
+footer {
+    background-color: #1c1c1c; /* Negro oscuro */
+    text-align: center;
+    padding: 10px;
+    color: #dcdcdc;
+    position: relative; /* Permite que el footer esté al final del flujo normal del contenido */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%; /* Ocupa todo el ancho */
+    margin-top: auto; /* Empuja el footer hacia abajo si el contenido no llena toda la página */
+}
+
+footer p {
+    margin: 20px; /* Reducido para espaciado compacto */
+    font-size: 16px;
+    font-weight: bolder;
+    padding: 20px;
+}
+
+button.editar, button.eliminar {
+    background-color: transparent; /* Fondo transparente */
+    color: #e7e300; /* Color amarillo */
+    border: 1px solid #e7e300; /* Borde sutil */
+    padding: 6px 12px; /* Reducido para aspecto minimalista */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 3px; /* Bordes redondeados */
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.editar:hover {
+    background-color: #e7e300; /* Fondo amarillo al pasar el mouse */
+    color: #121212; /* Color oscuro para el texto al pasar el mouse */
+    border-color: #e7e300;
+}
+
+button.eliminar {
+    color: #f44336; /* Rojo para eliminar */
+    border-color: #f44336; /* Borde rojo */
+}
+
+button.eliminar:hover {
+    background-color: #f44336; /* Fondo rojo al pasar el mouse */
+    color: #121212; /* Color oscuro para el texto */
+}
+
+
+ a {
+    color: #05a100;
+    font-weight: bold;
+    text-decoration: underline;
+}

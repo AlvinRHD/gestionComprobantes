@@ -1,0 +1,51 @@
+#cuerpo {
+    background: rgb(51,51,51);
+background: linear-gradient(90deg, rgba(51,51,51,1) 0%, rgba(85,85,85,1) 56%, rgba(232,231,231,1) 100%);
+}
+  
+  .card {
+    background-color: rgba(0, 0, 0, 0.85); /* Fondo oscuro y semitransparente */
+    border-radius: 1rem;
+  }
+  
+  .card h2 {
+    color: #ffffff; /* Títulos blancos */
+  }
+  
+  .card .form-control {
+    background-color: #333333; /* Fondo gris oscuro */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid #555555; /* Borde más claro */
+  }
+  
+  .card .form-control:focus {
+    background-color: #444444; /* Fondo al interactuar */
+    border-color: #00bcd4; /* Azul brillante */
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.5); /* Sombra azul */
+  }
+  
+  .card .form-label {
+    color: #cccccc; /* Texto gris claro */
+  }
+  
+  .card button {
+    background-color: transparent;
+    color: #00bcd4; /* Azul brillante */
+    border: 1px solid #00bcd4;
+    transition: all 0.3s ease;
+  }
+  
+  .card button:hover {
+    background-color: #00bcd4; /* Fondo azul */
+    color: #ffffff; /* Texto blanco */
+  }
+  
+  .card a {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+  
+  .card a:hover {
+    color: #00bcd4; /* Azul brillante */
+  }
+  
