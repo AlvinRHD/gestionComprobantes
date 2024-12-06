@@ -48,4 +48,29 @@ background: linear-gradient(90deg, rgba(51,51,51,1) 0%, rgba(85,85,85,1) 56%, rg
   .card a:hover {
     color: #00bcd4; /* Azul brillante */
   }
+
+ 
+  .form-control {
+    background-color: #343a40; /* Fondo gris oscuro */
+    color: white; /* Texto blanco */
+    border: 1px solid #6c757d; /* Bordes gris claro */
+    padding: 10px 15px;
+    font-size: 16px;
+  }
   
+  /* Placeholder siempre visible al inicio */
+  ::placeholder {
+    color: #cccccc; /* Placeholder en gris claro */
+    opacity: 1;
+  }
+  
+  /* Cambios cuando el usuario escribe */
+  .form-control:not(:placeholder-shown) {
+    color: white; /* Asegura texto visible */
+  }
+  
+  /* Borde al enfocar */
+  .form-control:focus {
+    border-color: #007bff; /* Azul */
+    outline: none; /* Sin borde adicional */
+  }
