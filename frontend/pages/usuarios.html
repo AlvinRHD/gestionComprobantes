@@ -3,11 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/frontend/css/usuarios.css" />
     <title>Gestión de Usuarios</title>
   </head>
   <body>
     <header>
       <h1>Gestión de Usuarios</h1>
+      <br>
+      <hr>
+      <br>
+      
       <nav>
         <ul>
           <li><a href="../index.html">Inicio</a></li>
@@ -16,30 +21,31 @@
           <li><a href="../login.html">Cerrar Sesión</a></li>
         </ul>
       </nav>
+      <br>
     </header>
+    
     <main>
-      <section>
-        <button id="btnAgregarUsuario">Agregar Usuario</button>
-        <table id="tablaUsuarios">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Rol</th>
-              <th>Empresa</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Usuarios cargados dinámicamente -->
-          </tbody>
-        </table>
-      </section>
-      <section id="formularioUsuario" style="display: none">
-        <h2 id="formTitulo">Agregar Usuario</h2>
+      <br>
+      <button id="btnAgregarUsuario">Agregar Usuario</button>
+      <br>
+      <table id="tablaUsuarios">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Empresa</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Usuarios cargados dinámicamente -->
+        </tbody>
+      </table>
+      <div id="formularioUsuario" style="display: none">
         <form id="usuarioForm">
-          <input type="hidden" id="usuarioId" />
+          <h2 id="formTitulo">Agregar Usuario</h2>
           <label for="nombre">Nombre:</label>
           <input type="text" id="nombre" name="nombre" required />
           <label for="correo">Correo:</label>
@@ -58,8 +64,13 @@
           <button type="submit">Guardar</button>
           <button type="button" id="btnCancelar">Cancelar</button>
         </form>
-      </section>
+      </div>
     </main>
+    <br><br><br>
+    <hr>
+    <footer>
+      <p>&copy; 2024 Contadorcito SA de CV</p>
+    </footer>
     <script src="../js/api.js"></script>
     <script src="../js/usuarios.js"></script>
   </body>

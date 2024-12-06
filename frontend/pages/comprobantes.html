@@ -3,11 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/frontend/css/comprobantes.css">
     <title>Contadorcito - Comprobantes</title>
   </head>
   <body>
     <header>
       <h1>Gestión de Comprobantes</h1>
+      <br>
+      <hr>
+      <br>
       <nav>
         <ul>
           <li><a href="../index.html">Inicio</a></li>
@@ -16,16 +20,19 @@
           <li><a href="../login.html">Cerrar Sesión</a></li>
         </ul>
       </nav>
+      <br>
     </header>
 
     <main>
+      <br>
       <button id="add-comprobante-btn">Agregar Comprobante</button>
-
+      <br>
       <select id="comprobante-type-selector">
         <option value="Crédito Fiscal">Comprobantes de Compra</option>
         <option value="Consumidor Final">Comprobantes de Venta</option>
       </select>
-
+      <br>
+      <br>
       <table id="comprobantes-table">
         <thead>
           <tr>
@@ -43,6 +50,10 @@
       </table>
     </main>
 
+    <br>
+    <br>
+    <br>
+    <hr>
     <footer>
       <p>&copy; 2024 Contadorcito SA de CV</p>
     </footer>
@@ -88,6 +99,7 @@
           id="archivo_pdf"
           name="archivo_pdf"
           accept="application/pdf"
+          class="1"
         />
         <div id="archivo_pdf_link"></div>
 
