@@ -17,7 +17,7 @@ app.use(express.json()); // Procesar JSON
 app.use(express.urlencoded({ extended: true })); // Procesar datos de formularios
 
 app.get('/', (req, res) => {
-  res.send('Servidor funcionando');
+  res.sendFile(path.join(__dirname, 'frontend', 'login.html'));
 });
 
 // Rutas
