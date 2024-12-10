@@ -1,13 +1,12 @@
 const pool = require('./models/db');
 
+async function testConnection() {
+    try {
+        const [rows] = await pool.query('SELECT 1');
+        console.log('Conexión exitosa a la base de datos:', rows);
+    } catch (error) {
+        console.error('Error al conectar a la base de datos:', error);
+    }
+}
 
-(async () => {
-  try {
-    const [rows] = await pool.query('SELECT 1 + 1 AS result');
-    console.log('Conexión exitosa:', rows);
-    process.exit();
-  } catch (error) {
-    console.error('Error conectando a la base de datos:', error);
-    process.exit(1);
-  }
-})();
+testConnection();
