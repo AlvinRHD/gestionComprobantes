@@ -1,10 +1,10 @@
-const API_URL = 'https://contadorcitorender.onrender.com';
+const API_URL = 'https://contadorcitorender.onrender.com/api';
 
 
 ///AQUI EMPIEZA FUNCION PARA INICIAR SESION
 async function login(email, password) {
     try {
-        const response = await fetch(`${API_URL}/usuarios/login`, {
+        const response = await fetch('https://contadorcitorender.onrender.com/api/usuarios/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
