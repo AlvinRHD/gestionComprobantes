@@ -1,6 +1,5 @@
 ```
 └── 📁contadorcito
-    └── 📁.git
     └── 📁backend
         └── 📁controllers
             └── comprobantesController.js
@@ -13,9 +12,10 @@
             └── empresas.js
             └── usuarios.js
         └── 📁uploads
-            └── 1732235012157.pdf
-            └── 1732235012163.json
-            └── 1732236693465.pdf
+            └── 1733858947982.pdf
+            └── 1733858947983.json
+            └── 1733860044698.json
+            └── 1733860044698.pdf
         └── 📁utils
             └── auth.js
             └── logo.png
@@ -23,12 +23,11 @@
         └── app.js
         └── testConnection.js
     └── 📁database
+        └── newScript.sql
         └── schema.sql
+        └── script.sql
         └── seed.sql
     └── 📁frontend
-        └── 📁css
-            └── forms.css
-            └── main.css
         └── 📁js
             └── api.js
             └── app.js
@@ -39,6 +38,7 @@
             └── comprobantes.html
             └── empresas.html
             └── usuarios.html
+        └── faq.html
         └── index.html
         └── login.html
     └── .env

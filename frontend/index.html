@@ -1,69 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contadorcito - Inicio</title>
-    <link rel="stylesheet" href="css/main.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Incluyendo Tailwind CSS -->
   </head>
-  <body>
-    <header>
-      <p>Bienvenidos a Contadorcito</p>
-      <hr />
-      <br />
-      <nav>
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li id="nav-empresas">
-            <a href="./pages/empresas.html">Empresas</a>
-          </li>
-          <li><a href="./pages/comprobantes.html">Comprobantes</a></li>
-          <li id="nav-usuarios">
-            <a href="./pages/usuarios.html">Usuarios</a>
-          </li>
-          <li><a href="login.html">Cerrar Sesión</a></li>
-        </ul>
-      </nav>
+  <body class="flex flex-col min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gray-800 text-white py-6">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <p class="text-3xl font-semibold">Bienvenidos a Contadorcito</p>
+        <nav>
+          <ul class="flex space-x-6">
+            <li>
+              <a href="index.html" class="text-lg hover:text-blue-400"
+                >Inicio</a
+              >
+            </li>
+            <li id="nav-empresas">
+              <a
+                href="./pages/empresas.html"
+                class="text-lg hover:text-blue-400"
+                >Empresas</a
+              >
+            </li>
+            <li id="nav-comprobantes">
+              <a
+                href="./pages/comprobantes.html"
+                class="text-lg hover:text-blue-400"
+                >Comprobantes</a
+              >
+            </li>
+            <li id="nav-usuarios" class="hidden">
+              <a
+                href="./pages/usuarios.html"
+                class="text-lg hover:text-blue-400"
+                >Usuarios</a
+              >
+            </li>
+            <li>
+              <button
+                id="logout-button"
+                class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg"
+              >
+                Cerrar sesión
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
-    <br />
-    <br />
-    <main>
-      <section id="welcome">
-        <h2>Sistema de Gestión de Comprobantes</h2>
-        <p>
-          Organiza tus comprobantes de ventas y compras de manera facil y
-          eficiente.
+
+    <!-- Main Section -->
+    <main class="flex-grow bg-white py-12 px-6 sm:px-8 lg:px-12">
+      <section id="welcome" class="max-w-3xl mx-auto text-center">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">
+          Sistema de Gestión de Comprobantes
+        </h2>
+        <p class="text-lg text-gray-600 mb-8">
+          Organiza tus comprobantes de ventas y compras de manera fácil y
+          eficiente. Nuestra página está diseñada para facilitar la gestión de
+          tus datos.
         </p>
-        <br />
-        <p>
-          Nuestra página está diseñada para facilitar la gestión de tus datos,
-          entre las opciones disponibles estan:
+        <p class="text-lg text-gray-600 mb-8">
+          Con **Contadorcito**, puedes gestionar todos tus comprobantes de
+          manera simple, con herramientas fáciles de usar:
         </p>
-        <br />
-        <li>
-          Empresas: Agregar nuevas empresas, editarlas o eliminarlas según sea
-          necesario.
-        </li>
-        <br />
-        <li>
-          Comprobantes: Crear comprobantes de ventas y compras, editarlos o
-          eliminarlos con facilidad.
-        </li>
-        <br />
-        <li>
-          Usuarios: Administrar usuarios que gestionarán la página, incluyendo
-          opciones para agregar, editar o eliminar usuarios existentes.
-        </li>
-        <br />
+
+        <!-- Sección de Opciones -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div
+            id="empresas-section"
+            class="bg-blue-100 p-6 rounded-lg shadow-md hover:bg-blue-200 transition-all"
+          >
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">Empresas</h3>
+            <p class="text-gray-600">
+              Agrega nuevas empresas, edítalas o elimínelas según sea necesario.
+            </p>
+            <a
+              href="./pages/empresas.html"
+              class="inline-block mt-4 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700"
+              >Ver Empresas</a
+            >
+          </div>
+
+          <div
+            class="bg-green-100 p-6 rounded-lg shadow-md hover:bg-green-200 transition-all"
+          >
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">
+              Comprobantes
+            </h3>
+            <p class="text-gray-600">
+              Crea y administra comprobantes de ventas y compras fácilmente.
+            </p>
+            <a
+              href="./pages/comprobantes.html"
+              class="inline-block mt-4 bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700"
+              >Ver Comprobantes</a
+            >
+          </div>
+
+          <!-- Sección visible solo para Administradores -->
+          <div
+            id="usuarios-section"
+            class="bg-yellow-100 p-6 rounded-lg shadow-md hover:bg-yellow-200 transition-all hidden"
+          >
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">Usuarios</h3>
+            <p class="text-gray-600">
+              Gestiona usuarios con acceso al sistema, añadiendo y editando
+              roles.
+            </p>
+            <a
+              href="./pages/usuarios.html"
+              class="inline-block mt-4 bg-yellow-600 text-white py-2 px-4 rounded-full hover:bg-yellow-700"
+              >Ver Usuarios</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel de Estadísticas -->
+      <section
+        id="stats"
+        class="bg-gray-100 mt-12 py-8 px-4 rounded-lg shadow-md"
+      >
+        <div class="container mx-auto text-center">
+          <h3 class="text-3xl font-semibold text-gray-800 mb-6">
+            Estadísticas Rápidas
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+              <h4 class="text-xl font-bold text-gray-700">
+                Empresas Registradas
+              </h4>
+              <p class="text-2xl text-blue-600" id="empresas-count">120</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+              <h4 class="text-xl font-bold text-gray-700">
+                Comprobantes Creados
+              </h4>
+              <p class="text-2xl text-green-600" id="comprobantes-count">340</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+              <h4 class="text-xl font-bold text-gray-700">Usuarios Activos</h4>
+              <p class="text-2xl text-yellow-600" id="usuarios-count">75</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Información adicional o ayuda -->
+      <section id="help" class="mt-12 text-center">
+        <h3 class="text-2xl font-semibold text-gray-700 mb-6">
+          ¿Necesitas ayuda?
+        </h3>
+        <p class="text-lg text-gray-600 mb-6">
+          Si tienes dudas sobre cómo usar el sistema o necesitas ayuda, puedes
+          consultar nuestra sección de preguntas frecuentes o contactar a
+          soporte técnico U20230560@univo.edu.sv.
+        </p>
+        <a
+          href="faq.html"
+          class="bg-gray-800 text-white py-2 px-6 rounded-full hover:bg-gray-900"
+          >Ver Preguntas Frecuentes</a
+        >
       </section>
     </main>
-    <br />
-    <br />
-    <br />
-    <hr />
-    <footer>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4">
       <p>&copy; 2024 Contadorcito SA de CV</p>
     </footer>
+
     <script src="js/app.js"></script>
   </body>
 </html>

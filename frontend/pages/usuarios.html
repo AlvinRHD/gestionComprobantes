@@ -3,74 +3,153 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/frontend/css/usuarios.css" />
     <title>Gestión de Usuarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
   </head>
-  <body>
-    <header>
-      <h1>Gestión de Usuarios</h1>
-      <br>
-      <hr>
-      <br>
-      
-      <nav>
-        <ul>
-          <li><a href="../index.html">Inicio</a></li>
-          <li><a href="empresas.html">Empresas</a></li>
-          <li><a href="comprobantes.html">Comprobantes</a></li>
-          <li><a href="../login.html">Cerrar Sesión</a></li>
-        </ul>
-      </nav>
-      <br>
+  <body class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-600">Gestión de Usuarios</h1>
+        <nav>
+          <ul class="flex space-x-6 items-center">
+            <li>
+              <a href="../index.html" class="text-gray-600 hover:text-blue-600"
+                >Inicio</a
+              >
+            </li>
+            <li>
+              <a
+                href="comprobantes.html"
+                class="text-gray-600 hover:text-blue-600"
+                >Comprobantes</a
+              >
+            </li>
+            <li>
+              <a href="empresas.html" class="text-gray-600 hover:text-blue-600"
+                >Empresas</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
-    
-    <main>
-      <br>
-      <button id="btnAgregarUsuario">Agregar Usuario</button>
-      <br>
-      <table id="tablaUsuarios">
+    <br />
+    <main class="container mx-auto my-8 flex-grow">
+      <button
+        id="btnAgregarUsuario"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none mb-4"
+      >
+        Agregar Usuario
+      </button>
+
+      <table
+        id="tablaUsuarios"
+        class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md"
+      >
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Empresa</th>
-            <th>Acciones</th>
+            <th class="px-4 py-2 text-left border-b">ID</th>
+            <th class="px-4 py-2 text-left border-b">Nombre</th>
+            <th class="px-4 py-2 text-left border-b">Correo</th>
+            <th class="px-4 py-2 text-left border-b">Rol</th>
+            <th class="px-4 py-2 text-left border-b">Empresa</th>
+            <th class="px-4 py-2 text-left border-b">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <!-- Usuarios cargados dinámicamente -->
         </tbody>
       </table>
-      <div id="formularioUsuario" style="display: none">
+
+      <div
+        id="formularioUsuario"
+        class="mt-6 p-6 bg-white rounded-lg shadow-md"
+        style="display: none"
+      >
         <form id="usuarioForm">
-          <h2 id="formTitulo">Agregar Usuario</h2>
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required />
-          <label for="correo">Correo:</label>
-          <input type="email" id="correo" name="correo" required />
-          <label for="password">Contraseña:</label>
-          <input type="password" id="password" name="password" />
-          <label for="rol">Rol:</label>
-          <select id="rol" name="rol" required>
+          <h2 id="formTitulo" class="text-2xl font-semibold mb-4">
+            Agregar Usuario
+          </h2>
+          <input type="hidden" id="usuarioId" name="usuarioId" />
+
+          <label for="nombre" class="block text-gray-700">Nombre:</label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            class="w-full p-2 border border-gray-300 rounded mt-1 mb-4"
+            required
+          />
+
+          <label for="correo" class="block text-gray-700">Correo:</label>
+          <input
+            type="email"
+            id="correo"
+            name="correo"
+            class="w-full p-2 border border-gray-300 rounded mt-1 mb-4"
+            required
+          />
+
+          <label for="password" class="block text-gray-700">Contraseña:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="w-full p-2 border border-gray-300 rounded mt-1 mb-4"
+          />
+
+          <label for="rol" class="block text-gray-700">Rol:</label>
+          <select
+            id="rol"
+            name="rol"
+            class="w-full p-2 border border-gray-300 rounded mt-1 mb-4"
+            required
+          >
             <option value="Administrador">Administrador</option>
             <option value="Auxiliar">Auxiliar</option>
           </select>
-          <label for="empresa">Empresa:</label>
-          <select id="empresa" name="empresa_id">
+
+          <label for="empresa" class="block text-gray-700">Empresa:</label>
+          <select
+            id="empresa"
+            name="empresa_id"
+            class="w-full p-2 border border-gray-300 rounded mt-1 mb-4"
+          >
             <!-- Opciones cargadas dinámicamente -->
           </select>
-          <button type="submit">Guardar</button>
-          <button type="button" id="btnCancelar">Cancelar</button>
+
+          <div class="flex justify-end mt-4 space-x-4">
+            <button
+              type="submit"
+              class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 focus:outline-none"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              id="btnCancelar"
+              class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 focus:outline-none"
+            >
+              Cancelar
+            </button>
+          </div>
         </form>
       </div>
     </main>
-    <br><br><br>
-    <hr>
-    <footer>
+
+    <hr class="my-4" />
+    <!-- Footer -->
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <footer class="bg-gray-800 text-white text-center py-4">
       <p>&copy; 2024 Contadorcito SA de CV</p>
     </footer>
+
     <script src="../js/api.js"></script>
     <script src="../js/usuarios.js"></script>
   </body>

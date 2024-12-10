@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const usuarios = await res.json();
 
             tablaUsuarios.innerHTML = usuarios.map(usuario => `
-                <tr>
-                    <td>${usuario.id}</td>
-                    <td>${usuario.nombre}</td>
-                    <td>${usuario.correo}</td>
-                    <td>${usuario.rol}</td>
-                    <td>${usuario.empresa_id || 'N/A'}</td>
-                    <td>
-                        <button data-id="${usuario.id}" class="editar">Editar</button>
-                        <button data-id="${usuario.id}" class="eliminar">Eliminar</button>
-                    </td>
-                </tr>
+                <tr class="border-b">
+                <td class="px-4 py-2 text-left">${usuario.id}</td>
+                <td class="px-4 py-2 text-left">${usuario.nombre}</td>
+                <td class="px-4 py-2 text-left">${usuario.correo}</td>
+                <td class="px-4 py-2 text-left">${usuario.rol}</td>
+                <td class="px-4 py-2 text-left">${usuario.empresa_id || 'N/A'}</td>
+                <td class="px-4 py-2 text-left">
+                    <button data-id="${usuario.id}" class="editar bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none">Editar</button>
+                    <button data-id="${usuario.id}" class="eliminar bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none">Eliminar</button>
+                </td>
+            </tr>
             `).join('');
         } catch (error) {
             console.error(error);
@@ -93,6 +93,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('No se pudo cargar el usuario.');
             }
         }
+
+
+        // Eliminar usuario
+    if (e.target.classList.contains('eliminar')) {
+        const id = e.target.dataset.id;
+        const confirmacion = confirm('¿Estás seguro de eliminar este usuario?');
+        if (confirmacion) {
+            try {
+                const res = await fetch(`${apiUsuariosUrl}/${id}`, {
+                    method: 'DELETE',
+                    headers,
+                });
+                if (!res.ok) {
+                    throw new Error(`Error al eliminar usuario: ${res.statusText}`);
+                }
+                cargarUsuarios(); // Recargar la lista de usuarios
+            } catch (error) {
+                console.error(error);
+                alert('Error al eliminar el usuario.');
+            }
+        }
+    }
     });
 
     // Cargar empresas para el formulario

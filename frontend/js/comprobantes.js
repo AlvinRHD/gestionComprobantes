@@ -15,19 +15,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         comprobantes.forEach(comprobante => {
             const row = comprobantesTable.insertRow();
             row.innerHTML = `
-                <td>${comprobante.tipo}</td>
-                <td>${comprobante.numero}</td>
-                <td>${comprobante.fecha}</td>
-                <td>${comprobante.monto}</td>
-                <td>${comprobante.cliente_proveedor}</td>
-                <td>
-                    ${comprobante.archivo_pdf ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_pdf}" target="_blank">Ver PDF</a>` : ''}
-                    ${comprobante.archivo_json ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_json}" target="_blank">Ver JSON</a>` : ''}
-                </td>
-                <td>
-                    <button class="edit-btn" data-id="${comprobante.id}">Editar</button>
-                    <button class="delete-btn" data-id="${comprobante.id}">Eliminar</button>
-                </td>
+                <td class="px-4 py-2 border border-gray-300">${comprobante.tipo}</td>
+                <td class="px-4 py-2 border border-gray-300">${comprobante.numero}</td>
+                <td class="px-4 py-2 border border-gray-300">${comprobante.fecha}</td>
+                <td class="px-4 py-2 border border-gray-300">${comprobante.monto}</td>
+                <td class="px-4 py-2 border border-gray-300">${comprobante.cliente_proveedor}</td>
+        <td class="px-4 py-2 border border-gray-300">
+            ${comprobante.archivo_pdf ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_pdf}" target="_blank" class="text-blue-500 hover:underline">Ver PDF</a>` : ''}
+            ${comprobante.archivo_json ? `<a href="${API_URL}/comprobantes/download/${comprobante.archivo_json}" target="_blank" class="text-blue-500 hover:underline">Ver JSON</a>` : ''}
+        </td>
+        <td class="px-4 py-2 border border-gray-300 flex space-x-2 justify-center">
+            <!-- Botón Editar -->
+            <button class="edit-btn bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none" data-id="${comprobante.id}">
+                Editar
+            </button>
+            <!-- Botón Eliminar -->
+            <button class="delete-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none" data-id="${comprobante.id}">
+                Eliminar
+            </button>
+        </td>
             `;
         });
     }

@@ -3,45 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/frontend/css/comprobantes.css">
     <title>Contadorcito - Comprobantes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- Asegúrate de tener Tailwind en tu proyecto -->
   </head>
-  <body>
-    <header>
-      <h1>Gestión de Comprobantes</h1>
-      <br>
-      <hr>
-      <br>
-      <nav>
-        <ul>
-          <li><a href="../index.html">Inicio</a></li>
-          <li id="nav-empresas"><a href="empresas.html">Empresas</a></li>
-          <li id="nav-usuarios"><a href="usuarios.html">Usuarios</a></li>
-          <li><a href="../login.html">Cerrar Sesión</a></li>
-        </ul>
-      </nav>
-      <br>
+  <body class="bg-gray-100 font-sans text-gray-900">
+    <!-- Header -->
+    <header class="bg-white shadow p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-600">
+          Gestión de Comprobantes
+        </h1>
+        <nav>
+          <ul class="flex space-x-6 items-center">
+            <li>
+              <a href="../index.html" class="text-gray-600 hover:text-blue-600"
+                >Inicio</a
+              >
+            </li>
+            <li id="nav-empresas">
+              <a href="empresas.html" class="text-gray-600 hover:text-blue-600"
+                >Empresas</a
+              >
+            </li>
+            <li id="nav-usuarios" class="hidden">
+              <a href="usuarios.html" class="text-gray-600 hover:text-blue-600"
+                >Usuarios</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <br>
-      <button id="add-comprobante-btn">Agregar Comprobante</button>
-      <br>
-      <select id="comprobante-type-selector">
+    <!-- Main Content -->
+    <main class="container mx-auto my-8 flex-grow">
+      <button
+        id="add-comprobante-btn"
+        class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 focus:outline-none mb-4"
+      >
+        Agregar Comprobante
+      </button>
+
+      <!-- Selector de Tipo de Comprobante -->
+      <select
+        id="comprobante-type-selector"
+        class="mb-4 p-2 border rounded border-gray-300"
+      >
         <option value="Crédito Fiscal">Comprobantes de Compra</option>
         <option value="Consumidor Final">Comprobantes de Venta</option>
       </select>
-      <br>
-      <br>
-      <table id="comprobantes-table">
+
+      <!-- Tabla de Comprobantes -->
+      <table
+        id="comprobantes-table"
+        class="w-full table-auto border-collapse bg-white shadow-md rounded-lg"
+      >
         <thead>
-          <tr>
-            <th>Tipo de Comprobante</th>
-            <th>Número</th>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Proveedor/Cliente</th>
-            <th>Acciones</th>
+          <tr class="bg-gray-100 text-left">
+            <th class="px-4 py-2 border border-gray-300">
+              Tipo de Comprobante
+            </th>
+            <th class="px-4 py-2 border border-gray-300">Número</th>
+            <th class="px-4 py-2 border border-gray-300">Fecha</th>
+            <th class="px-4 py-2 border border-gray-300">Monto</th>
+            <th class="px-4 py-2 border border-gray-300">Proveedor/Cliente</th>
+            <th class="px-4 py-2 border border-gray-300">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -50,72 +78,138 @@
       </table>
     </main>
 
-    <br>
-    <br>
-    <br>
-    <hr>
-    <footer>
+    <!-- Modal para Agregar Comprobante -->
+    <div
+      id="add-comprobante-modal"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+      style="display: none"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h2 class="text-xl font-semibold mb-4">Agregar Comprobante</h2>
+        <form id="add-comprobante-form" class="space-y-2">
+          <div>
+            <label for="comprobante-tipo" class="block"
+              >Tipo de Comprobante:</label
+            >
+            <select
+              id="comprobante-tipo"
+              name="tipo"
+              class="w-full p-1 border rounded border-gray-300"
+              required
+            >
+              <option value="Crédito Fiscal">Compra</option>
+              <option value="Consumidor Final">Venta</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="comprobante-numero" class="block"
+              >Número de Comprobante:</label
+            >
+            <input
+              type="text"
+              id="comprobante-numero"
+              name="numero"
+              class="w-full p-1 border rounded border-gray-300"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="comprobante-fecha" class="block">Fecha:</label>
+            <input
+              type="date"
+              id="comprobante-fecha"
+              name="fecha"
+              class="w-full p-1 border rounded border-gray-300"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="comprobante-monto" class="block">Monto:</label>
+            <input
+              type="number"
+              id="comprobante-monto"
+              name="monto"
+              class="w-full p-1 border rounded border-gray-300"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="comprobante-cliente_proveedor" class="block"
+              >Proveedor/Cliente:</label
+            >
+            <input
+              type="text"
+              id="comprobante-cliente_proveedor"
+              name="cliente_proveedor"
+              class="w-full p-1 border rounded border-gray-300"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="empresa-id" class="block">ID de la Empresa:</label>
+            <input
+              type="text"
+              id="empresa-id"
+              name="empresa_id"
+              placeholder="ID de la Empresa"
+              class="w-full p-1 border rounded border-gray-300"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="archivo_pdf" class="block">Archivo PDF:</label>
+            <input
+              type="file"
+              id="archivo_pdf"
+              name="archivo_pdf"
+              accept="application/pdf"
+              class="w-full p-1 border rounded border-gray-300"
+            />
+          </div>
+
+          <div id="archivo_pdf_link" class="mb-4"></div>
+
+          <div>
+            <label for="archivo_json" class="block">Archivo JSON:</label>
+            <input
+              type="file"
+              id="archivo_json"
+              name="archivo_json"
+              accept="application/json"
+              class="w-full p-1 border rounded border-gray-300"
+            />
+          </div>
+
+          <div id="archivo_json_link" class="mb-4"></div>
+
+          <div class="flex justify-between">
+            <button
+              type="submit"
+              class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              id="close-comprobante-modal"
+              class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
       <p>&copy; 2024 Contadorcito SA de CV</p>
     </footer>
-
-    <div id="add-comprobante-modal" style="display: none">
-      <form id="add-comprobante-form">
-        <label for="comprobante-tipo">Tipo de Comprobante:</label>
-        <select id="comprobante-tipo" name="tipo" required>
-          <option value="Crédito Fiscal">Compra</option>
-          <option value="Consumidor Final">Venta</option>
-        </select>
-
-        <label for="comprobante-numero">Número de Comprobante:</label>
-        <input type="text" id="comprobante-numero" name="numero" required />
-
-        <label for="comprobante-fecha">Fecha:</label>
-        <input type="date" id="comprobante-fecha" name="fecha" required />
-
-        <label for="comprobante-monto">Monto:</label>
-        <input type="number" id="comprobante-monto" name="monto" required />
-
-        <label for="comprobante-cliente_proveedor">Proveedor/Cliente:</label>
-        <input
-          type="text"
-          id="comprobante-cliente_proveedor"
-          name="cliente_proveedor"
-          required
-        />
-
-        <label for="empresa-id">ID de la Empresa:</label>
-        <input
-          type="text"
-          id="empresa-id"
-          name="empresa_id"
-          placeholder="ID de la Empresa"
-          required
-        />
-
-        <!-- Archivos -->
-        <label>Archivo PDF:</label>
-        <input
-          type="file"
-          id="archivo_pdf"
-          name="archivo_pdf"
-          accept="application/pdf"
-          class="1"
-        />
-        <div id="archivo_pdf_link"></div>
-
-        <label>Archivo JSON:</label>
-        <input
-          type="file"
-          id="archivo_json"
-          name="archivo_json"
-          accept="application/json"
-        />
-        <div id="archivo_json_link"></div>
-
-        <button type="submit">Guardar</button>
-        <button type="button" id="close-comprobante-modal">Cancelar</button>
-      </form>
-    </div>
 
     <script src="../js/api.js"></script>
     <script src="../js/comprobantes.js"></script>

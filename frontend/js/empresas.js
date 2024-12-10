@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Frontend cargado correctamente');
 
-    const companiesTable = document.getElementById('companies-table').getElementsByTagName('tbody')[0];
+    // Asegúrate de que el selector sea correcto.
+    const companiesTable = document.querySelector('#companies-table');
     const addCompanyModal = document.getElementById('add-company-modal');
     const addCompanyForm = document.getElementById('add-company-form');
     const addCompanyBtn = document.getElementById('add-company-btn');
@@ -11,22 +12,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentEditingId = null;
 
     async function loadEmpresas() {
-        const empresas = await getEmpresas();
-        companiesTable.innerHTML = '';
+        const empresas = await getEmpresas(); // Debes tener una función llamada `getEmpresas`.
+        companiesTable.innerHTML = ''; // Asegúrate de limpiar correctamente el tbody.
 
         empresas.forEach(empresa => {
-            const row = companiesTable.insertRow();
+            const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${empresa.nombre}</td>
-                <td>${empresa.tipo}</td>
-                <td>${empresa.direccion}</td>
-                <td>${empresa.telefono}</td>
-                <td>${empresa.correo}</td>
-                <td>
-                    <button class="edit-btn" data-id="${empresa.id}">Editar</button>
-                    <button class="delete-btn" data-id="${empresa.id}">Eliminar</button>
-                </td>
+                <td class="px-4 py-2 border border-gray-300">${empresa.nombre}</td>
+                <td class="px-4 py-2 border border-gray-300">${empresa.tipo}</td>
+                <td class="px-4 py-2 border border-gray-300">${empresa.direccion}</td>
+                <td class="px-4 py-2 border border-gray-300">${empresa.telefono}</td>
+                <td class="px-4 py-2 border border-gray-300">${empresa.correo}</td>
+                <td class="px-4 py-2 border border-gray-300">
+            <button class="edit-btn bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400" data-id="${empresa.id}">Editar</button>
+            <button class="delete-btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400" data-id="${empresa.id}">Eliminar</button>
+        </td>
             `;
+            companiesTable.appendChild(row);
         });
     }
 
