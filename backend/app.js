@@ -3,9 +3,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer'); // Si lo necesitas aquí
 require('dotenv').config();
-
+const path= require('path');
 const app = express();
 const port = process.env.PORT || 4000;
+
 
 // Middleware
 app.use(cors({
@@ -14,6 +15,10 @@ app.use(cors({
 }));
 app.use(express.json()); // Procesar JSON
 app.use(express.urlencoded({ extended: true })); // Procesar datos de formularios
+
+app.get('/', (req, res) => {
+  res.send('Servidor funcionando');
+});
 
 // Rutas
 app.use('/api/empresas', require('./routes/empresas'));
