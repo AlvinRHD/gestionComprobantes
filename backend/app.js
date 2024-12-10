@@ -9,8 +9,22 @@ const port = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors({
-  origin: 'https://contadorcitorender.onrender.com/api',
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:4000',
+      'https://alvinrhd.github.io/gestionComprobantes/',
+      'https://contadorcitorender.onrender.com'
+    ];
+
+    // Permitir peticiones sin origen (como desde herramientas locales)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 }));
 app.use(express.json()); // Procesar JSON
 app.use(express.urlencoded({ extended: true })); // Procesar datos de formularios

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnAgregarUsuario = document.getElementById('btnAgregarUsuario');
     const btnCancelar = document.getElementById('btnCancelar');
 
-    const apiBaseUrl = 'https://contadorcitorender.onrender.com/api';
+    const apiBaseUrl = 'https://contadorcitorender.onrender.com';
     const apiUsuariosUrl = `${apiBaseUrl}/usuarios`;
     const apiEmpresasUrl = `${apiBaseUrl}/empresas`;
 
