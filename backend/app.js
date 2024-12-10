@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'login.html'));
 });
 
+app.use(express.static(path.join(__dirname, 'frontend')));
+
 // Rutas
 app.use('/api/empresas', require('./routes/empresas'));
 app.use('/api/usuarios', require('./routes/usuarios'));
