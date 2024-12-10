@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:4000',
+  origin: 'https://contadorcitorender.onrender.com/api',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 app.use(express.json()); // Procesar JSON
