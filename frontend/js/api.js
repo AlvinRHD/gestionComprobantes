@@ -4,7 +4,7 @@ const API_URL = 'https://contadorcitorender.onrender.com';
 ///AQUI EMPIEZA FUNCION PARA INICIAR SESION
 async function login(email, password) {
     try {
-        const response = await fetch(`${API_URL}/api/usuarios/login`, {
+        const response = await fetch(`${API_URL}/usuarios/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ async function login(email, password) {
 // Función para obtener empresas (ya autenticado)
 async function getEmpresas() {
     try {
-        const response = await fetch(`${API_URL}/api/empresas`, {
+        const response = await fetch(`${API_URL}/empresas`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -53,7 +53,7 @@ async function getEmpresas() {
 // Función para agregar empresa
 async function CreateEmpresa(empresaData) {
     try {
-        const response = await fetch(`${API_URL}/api/empresas`, {
+        const response = await fetch(`${API_URL}/empresas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ async function CreateEmpresa(empresaData) {
 
 async function updateEmpresa(id, empresaData) {
     try {
-        const response = await fetch(`${API_URL}/api/empresas/${id}`, {
+        const response = await fetch(`${API_URL}/empresas/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ async function updateEmpresa(id, empresaData) {
 }
 async function getEmpresaById(id) {
     try {
-        const response = await fetch(`${API_URL}/api/empresas/${id}`, {
+        const response = await fetch(`${API_URL}/empresas/${id}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -123,7 +123,7 @@ async function getEmpresaById(id) {
 // Función para eliminar empresa
 async function deleteEmpresa(id) {
     try {
-        const response = await fetch(`${API_URL}/api/empresas/${id}`, {
+        const response = await fetch(`${API_URL}/empresas/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
