@@ -30,6 +30,12 @@ app.use(cors({
 app.use(express.json()); // Procesar JSON
 app.use(express.urlencoded({ extended: true })); // Procesar datos de formularios
 
+// Rutas API
+app.use('/api/empresas', require('./routes/empresas'));
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/comprobantes', require('./routes/comprobantes'));
+
+
 // Servir archivos estáticos desde la carpeta frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
 
@@ -39,10 +45,6 @@ app.get('/', (req, res) => {
 });
 
 
-// Rutas API
-app.use('/api/empresas', require('./routes/empresas'));
-app.use('/api/usuarios', require('./routes/usuarios'));
-app.use('/api/comprobantes', require('./routes/comprobantes'));
 
 // Iniciar servidor
 app.listen(port, () => {
