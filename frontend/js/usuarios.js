@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiBaseUrl = 'https://contadorcitorender.onrender.com';
     const apiUsuariosUrl = `${apiBaseUrl}/api/usuarios`;
-    const apiEmpresasUrl = `${apiBaseUrl}/api/empresas`;
+    const apiEmpresasUrl = `${apiBaseUrl}/empresas`;
 
     // Obtener el token desde localStorage
     const authToken = localStorage.getItem('authToken');
