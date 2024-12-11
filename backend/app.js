@@ -13,7 +13,8 @@ app.use(cors({
     const allowedOrigins = [
       'http://localhost:4000',
       'https://alvinrhd.github.io/gestionComprobantes/',
-      'https://contadorcitorender.onrender.com'
+      'https://contadorcitorender.onrender.com',
+      'https://kaleidoscopic-creponne-4f28f8.netlify.app'
     ];
 
     // Permitir peticiones sin origen (como desde herramientas locales)
