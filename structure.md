@@ -12,6 +12,7 @@
             └── empresas.js
             └── usuarios.js
         └── 📁uploads
+            └── 1733858925524.json
             └── 1733858947982.pdf
             └── 1733858947983.json
             └── 1733860044698.json
@@ -23,10 +24,11 @@
         └── app.js
         └── testConnection.js
     └── 📁database
-        └── newScript.sql
-        └── schema.sql
         └── script.sql
-        └── seed.sql
+    └── 📁documentos
+        └── Avance #4.pptx
+        └── Manual de usuario gestión de comprobanTES.pdf
+        └── Manual Técnico de GAC.pdf
     └── 📁frontend
         └── 📁js
             └── api.js
